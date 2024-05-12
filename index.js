@@ -64,6 +64,38 @@ async function run() {
       res.send(result);
     });
 
+    // get all documents of a specific user
+    app.get("/services/:email", async (req, res) => {
+      const email = req.params.email;
+      const result = await postedServiceCollection
+        .find({ "serviceProviderInfo.serviceProviderEmail": email })
+        .toArray();
+      res.send(result);
+    });
+
+    // update a service
+    app.patch("/service/:id", async (req, res) => {
+      const id = req.params.id;
+      const changedData = req.body;
+      const filter = { _id: new ObjectId(id) };
+      const options = { upsert: true };
+      const updateDoc = {
+        $set: {
+          serviceImg: changedData.serviceImg,
+          serviceName: changedData.serviceName,
+          servicePrice: changedData.servicePrice,
+          serviceArea: changedData.serviceArea,
+          serviceDescription: changedData.serviceDescription,
+        },
+      };
+      const result = await postedServiceCollection.updateOne(
+        filter,
+        updateDoc,
+        options
+      );
+      res.send(result);
+    });
+
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log(
