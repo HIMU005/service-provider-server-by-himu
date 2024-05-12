@@ -28,6 +28,7 @@ async function run() {
   try {
     // collection name
     const postedServiceCollection = client.db("services").collection("posted");
+    const bookedServiceCollection = client.db("services").collection("booked");
 
     // post a single service data
     app.post("/services", async (req, res) => {
@@ -35,9 +36,23 @@ async function run() {
       const result = await postedServiceCollection.insertOne(postedData);
       res.send(result);
     });
+
+    // post a single post data
+    app.post("/bookedService", async (req, res) => {
+      const bookedData = req.body;
+      const result = await bookedServiceCollection.insertOne(bookedData);
+      res.send(result);
+    });
+
     // get all documents
     app.get("/services", async (req, res) => {
       const result = await postedServiceCollection.find().toArray();
+      res.send(result);
+    });
+
+    // get all booked documents
+    app.get("/bookedService", async (req, res) => {
+      const result = await bookedServiceCollection.find().toArray();
       res.send(result);
     });
 
