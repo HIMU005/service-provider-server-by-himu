@@ -73,6 +73,14 @@ async function run() {
       res.send(result);
     });
 
+    // delete a document
+    app.delete("/service/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await postedServiceCollection.deleteOne(query);
+      res.send(result);
+    });
+
     // update a service
     app.patch("/service/:id", async (req, res) => {
       const id = req.params.id;
