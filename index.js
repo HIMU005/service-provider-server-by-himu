@@ -73,6 +73,24 @@ async function run() {
       res.send(result);
     });
 
+    // get all document of book service by a specific user
+    app.get("/bookedService/:email", async (req, res) => {
+      const email = req.params.email;
+      const result = await bookedServiceCollection
+        .find({ userEmail: email })
+        .toArray();
+      res.send(result);
+    });
+
+    // get all document of book service by a specific user
+    app.get("/bookedService-provider/:email", async (req, res) => {
+      const email = req.params.email;
+      const result = await bookedServiceCollection
+        .find({ "serviceProvider.serviceProviderEmail": email })
+        .toArray();
+      res.send(result);
+    });
+
     // delete a document
     app.delete("/service/:id", async (req, res) => {
       const id = req.params.id;
