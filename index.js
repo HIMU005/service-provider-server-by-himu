@@ -91,6 +91,20 @@ async function run() {
       res.send(result);
     });
 
+    // update status by provider
+    app.patch("/bookedService-updateStatus/:id", async (req, res) => {
+      const id = req.params.id;
+      const { status } = req.body;
+      const filter = { _id: new ObjectId(id) };
+      const updateDoc = {
+        $set: {
+          status: status,
+        },
+      };
+      const result = await bookedServiceCollection.updateOne(filter, updateDoc);
+      res.send(result);
+    });
+
     // delete a document
     app.delete("/service/:id", async (req, res) => {
       const id = req.params.id;
