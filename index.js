@@ -6,7 +6,7 @@ const port = process.env.PORT || 5000;
 const app = express();
 
 const corsOptions = {
-  origin: "http://localhost:5173",
+  origin: ["http://localhost:5173", "https://service-provider-20102.web.app"],
   credential: true,
   optionSuccessStatus: 200,
 };
@@ -29,11 +29,19 @@ async function run() {
     // collection name
     const postedServiceCollection = client.db("services").collection("posted");
     const bookedServiceCollection = client.db("services").collection("booked");
+    const feedbackCollection = client.db("services").collection("feedback");
 
     // post a single service data
     app.post("/services", async (req, res) => {
       const postedData = req.body;
       const result = await postedServiceCollection.insertOne(postedData);
+      res.send(result);
+    });
+
+    // post a single feedback
+    app.post("/services", async (req, res) => {
+      const postedData = req.body;
+      const result = await feedbackCollection.insertOne(postedData);
       res.send(result);
     });
 
