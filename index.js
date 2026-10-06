@@ -8,7 +8,13 @@ const port = process.env.PORT || 5000;
 const app = express();
 
 const corsOptions = {
-  origin: ["http://localhost:5173", "https://service-provider-20102.web.app"],
+  origin: [
+    "http://localhost:5173",
+    "http://localhost:5174",
+    "http://127.0.0.1:5173",
+    "https://service-provider-20102.web.app",
+    "https://service-provider-client-by-himu.vercel.app",
+  ],
   credentials: true,
   optionSuccessStatus: 200,
 };
@@ -43,7 +49,7 @@ async function run() {
         .cookie("token", token, {
           httpOnly: true,
           secure: process.env.NODE_ENV === "production",
-          sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
+          sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
         })
         .send({ success: true });
     });
